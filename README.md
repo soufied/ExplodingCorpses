@@ -1,2 +1,1 @@
 # ExplodingCorpses
-ExplodingCorpses

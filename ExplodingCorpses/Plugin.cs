@@ -26,6 +26,8 @@ namespace ExplodingCorpses
         public void OnSpawningRagdoll(SpawningRagdollEventArgs ev)
         {
             if (!Config.BoomClasses.Contains(ev.Role)) return;
+            Random rnd = new Random();
+            if (rnd.Next(1,101) > Config.ExpChance) return;
             var grenade = (ExplosiveGrenade)Item.Create(ItemType.GrenadeHE);
             grenade.FuseTime = Config.TickTack;
             grenade.MaxRadius = Config.MaxRadius;

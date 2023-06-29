@@ -33,5 +33,7 @@ namespace ExplodingCorpses.Configs
         public float ScpDamageMultiplier { get; set; } = 3f;
         [Description("Radius of explosion - (default - 9)")]
         public float MaxRadius { get; set; } = 9f;
+        [Description("Explousion chance")]
+        public int ExpChance { get; set; } = 20;
     }
 }

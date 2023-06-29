@@ -1,7 +1,13 @@
 ﻿using System;
+using System.Linq;
 using Exiled.API.Features;
 using Exiled.API.Features.Items;
 using Exiled.Events.EventArgs.Player;
+using MEC;
+using PlayerRoles;
+using UnityEngine;
+using Random = System.Random;
+
 namespace ExplodingCorpses
 {
     public class Plugin : Plugin<Configs.Config>
@@ -26,13 +32,18 @@ namespace ExplodingCorpses
         public void OnSpawningRagdoll(SpawningRagdollEventArgs ev)
         {
             if (!Config.BoomClasses.Contains(ev.Role)) return;
+            if (Player.Get(RoleTypeId.Spectator).Count() == 0) return;
             Random rnd = new Random();
             if (rnd.Next(1,101) > Config.ExpChance) return;
             var grenade = (ExplosiveGrenade)Item.Create(ItemType.GrenadeHE);
+            grenade.Base.Owner = Player.Get(RoleTypeId.Spectator).FirstOrDefault().ReferenceHub;
             grenade.FuseTime = Config.TickTack;
             grenade.MaxRadius = Config.MaxRadius;
             grenade.ScpDamageMultiplier = Config.ScpDamageMultiplier;
-            grenade.SpawnActive(ev.Position);
+            grenade.SpawnActive(new Vector3(ev.Position.x, ev.Position.y + 5, ev.Position.z));
+            //if (Server.FriendlyFire) return;
+            //Server.FriendlyFire = true; // bruh
+            //Timing.CallDelayed(Config.TickTack + 0.1f, () => Server.FriendlyFire = false);
         }
     }
 }
